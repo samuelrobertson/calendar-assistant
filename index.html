@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .assistant-response a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+        .assistant-response a:hover {
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-6 font-sans">
+    <div class="max-w-xl mx-auto mt-10">
+        <h1 class="text-2xl font-bold mb-4">Enter a Calendar Event</h1>
+        <form method="post" onsubmit="setLoading(true)">
+            <div class="flex gap-2">
+                <input type="text" name="event_text"
+                       placeholder="e.g. Lunch Friday at 1pm"
+                       class="w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-400" required>
+                <button id="submitBtn"
+                        type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 flex items-center">
+                    <span id="btnText">Submit</span>
+                    <svg id="spinner" class="animate-spin ml-2 h-5 w-5 text-white hidden"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 01-8 8z"/>
+                    </svg>
+                </button>
+            </div>
+        </form>
+        {% if result %}
+            <div class="mt-6 bg-white p-4 rounded shadow">
+                <h2 class="text-lg font-semibold mb-2">Assistant Response:</h2>
+                <div class="assistant-response">
+                    {{ result | safe }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        function setLoading(isLoading) {
+            const btn = document.getElementById("submitBtn");
+            const text = document.getElementById("btnText");
+            const spinner = document.getElementById("spinner");
+            text.style.display = isLoading ? "none" : "inline";
+            spinner.classList.toggle("hidden", !isLoading);
+        }
+    </script>
+</body>
+</html>
