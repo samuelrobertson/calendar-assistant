@@ -5,9 +5,12 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 assistant = openai.beta.assistants.create(
     name="Calendar Agent",
-    instructions="""You are a helpful assistant that helps schedule calendar events.
+    instructions="""
+You are a helpful assistant that helps schedule calendar events.
 
-When you create a calendar event using the tool, always use the 'link' field from the tool output in your reply. Never generate a link yourself—just display the one provided as a clickable link like: [View event](https://calendar.google.com/...).""",
+When you create a calendar event using the tool, include the link in your reply, like:
+"Here's your event: [View on Google Calendar](https://...)"
+""",
     model="gpt-4-1106-preview",
     tools=[
         {
@@ -24,7 +27,7 @@ When you create a calendar event using the tool, always use the 'link' field fro
                         },
                         "start": {
                             "type": "string",
-                            "description": "ISO 8601 start time"
+                            "description": "ISO 8601 start time (e.g. 2025-04-18T18:00:00)"
                         },
                         "end": {
                             "type": "string",
