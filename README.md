@@ -1,40 +1,94 @@
-# Calendar Assistant Agent
+# Calendar Agent Demo
 
-👉 [Try the Live Demo](https://calendar-agent-samrobertson6.replit.app/)
+This is a smart AI-powered calendar assistant built with OpenAI Assistants API and Google Calendar integration.
 
-This project is a natural language AI assistant that creates real events in your Google Calendar using OpenAI's Assistants API and Flask.
+It allows users to submit **plain English scheduling requests** like:
 
-## Features
+> "Schedule a meeting between Sam and Lisa at the earliest possible time."
 
-- Interprets plain English like “Lunch Friday at 1pm”
-- Schedules real calendar events via Google Calendar API
-- Returns a clickable calendar link in response
-- Includes a clean UI with Tailwind CSS and a loading spinner
-- Uses OpenAI’s Assistants API and Tool Calling
-- Automatically refreshes OAuth tokens
+The agent will:
+- Understand the user's intent
+- Infer appropriate weekdays and times automatically
+- Search reference schedules via **retrieval augmented generation (RAG)**
+- **Create a real Google Calendar event** without asking for confirmation
+- Return a **friendly, clear success message** with title, scheduled time, and a clickable calendar link
 
-## Technologies
+---
+
+## Key Features
+
+- **OpenAI Assistants API (beta)**
+  - Threads, Runs, Tool Calls, File Search (`file_search`)
+- **Google Calendar API Integration**
+  - OAuth2 secure authentication
+  - Real event creation in the user's calendar
+- **Real-time Awareness**
+  - Dynamically injects today's date
+  - Correctly handles current year and scheduling window
+- **Business Rule Enforcement**
+  - Schedules only Monday–Friday by default
+  - Prioritizes normal business hours (9:00 AM–5:00 PM)
+- **Friendly UI and Output**
+  - Live spinner while processing
+  - Clear formatted event summaries
+  - Clickable Google Calendar links
+- **Robust Production Code**
+  - OAuth token refresh
+  - Fast polling for assistant responses
+  - Graceful error handling
+
+---
+
+## Technologies Used
 
 - Python 3.11
 - Flask
-- OpenAI Assistants API (GPT-4)
-- Google OAuth2 + Calendar API
-- Jinja2 Templates
-- Tailwind CSS
+- OpenAI Python SDK (`>=1.3.5`)
+- Google OAuth2 and Calendar API
+- Markdown rendering
+- Deployed using Replit Cloud (or portable to Vercel, Render, Fly.io)
 
-## Setup Instructions
+---
 
-1. Create a Google Cloud project and enable Calendar API
-2. Get your OAuth2 client ID and secret
-3. Set up the following Replit secrets:
-   - `OPENAI_API_KEY`
-   - `GOOGLE_CLIENT_ID`
-   - `GOOGLE_CLIENT_SECRET`
-   - `GOOGLE_REFRESH_TOKEN`
-4. Run `create_calendar_assistant.py` to register the assistant
-5. Paste the assistant ID into `assistant_id.json`
-6. Run `app.py` and open your Replit public URL
+## Example Prompts
 
-## License
+- "Schedule a meeting between Sam and Lisa at the earliest possible time."
+- "Book a sync for the engineering team after the daily standup."
+- "Find an open time tomorrow afternoon for a 30-minute customer call."
+- "Set up a follow-up meeting for Nina and Jose next week."
+- "Arrange a kickoff meeting for the project team."
 
-MIT License
+_(No need to specify avoiding weekends — the assistant automatically prefers weekdays during business hours.)_
+
+---
+
+## Included RAG Data File (`team_schedule.md`)
+
+```markdown
+# Weekly Team Schedule
+
+- Monday
+  - 9:00 AM – Engineering Standup
+  - 1:00 PM – Marketing Review
+
+- Tuesday
+  - 10:00 AM – Product Sync
+  - 2:00 PM – Customer Success Meeting
+
+- Wednesday
+  - 9:30 AM – Engineering Standup
+  - 11:00 AM – Sales Pipeline Review
+
+- Thursday
+  - 9:00 AM – Engineering Standup
+  - 3:00 PM – Partner Check-in
+
+- Friday
+  - 9:00 AM – Engineering Standup
+  - 12:00 PM – Weekly Wrap-up Meeting
+
+# Company Meeting Policy
+
+- Meetings are scheduled Monday through Friday only.
+- No meetings are scheduled on weekends (Saturday/Sunday) unless explicitly requested.
+- Preferred hours are 9:00 AM to 5:00 PM local time.
