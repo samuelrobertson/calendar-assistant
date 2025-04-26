@@ -64,6 +64,8 @@ _(No need to specify avoiding weekends — the assistant automatically prefers w
 
 ## Included RAG Data File (`team_schedule.md`)
 
+> **Note:** You can edit this file to match your own company's weekly schedule and meeting rules.
+
 ```markdown
 # Weekly Team Schedule
 
