@@ -2,16 +2,28 @@
 
 This is a smart AI-powered calendar assistant built with OpenAI Assistants API and Google Calendar integration.
 
-It allows users to submit **plain English scheduling requests** like:
+It allows users to submit **plain English scheduling requests**, like:
 
-> "Schedule a meeting between Sam and Lisa at the earliest possible time."
+> "Schedule a meeting between Sam and Lisa at the earliest possible time,"
+
+while following company schedules and policies loaded from a RAG (retrieval-augmented generation) file.
 
 The agent will:
 - Understand the user's intent
+- Respect uploaded reference documents (team schedules, company rules)
 - Infer appropriate weekdays and times automatically
-- Search reference schedules via **retrieval augmented generation (RAG)**
 - **Create a real Google Calendar event** without asking for confirmation
 - Return a **friendly, clear success message** with title, scheduled time, and a clickable calendar link
+
+---
+
+## Live Demo
+
+You can try a working version of this agent here:
+
+**[Live Demo](https://calendar-agent-samrobertson6.replit.app/)**
+
+_(Note: For demo purposes, events are created on a dedicated demo Google Calendar.)_
 
 ---
 
