@@ -1,108 +1,39 @@
-# Calendar Agent Demo
+# Calendar Agent
 
-This is a smart AI-powered calendar assistant built with OpenAI Assistants API and Google Calendar integration.
+**Calendar Agent** is a smart assistant that helps users schedule Google Calendar events using natural language — powered by OpenAI’s Assistants API with RAG (retrieval-augmented generation) using a team schedule file.
 
-It allows users to submit **plain English scheduling requests**, like:
-
-> "Schedule a meeting between Sam and Lisa at the earliest possible time,"
-
-while following company schedules and policies loaded from a RAG (retrieval-augmented generation) file.
-
-The agent will:
-- Understand the user's intent
-- Respect uploaded reference documents (team schedules, company rules)
-- Infer appropriate weekdays and times automatically
-- **Create a real Google Calendar event** without asking for confirmation
-- Return a **friendly, clear success message** with title, scheduled time, and a clickable calendar link
-
----
+It automatically chooses the earliest available weekday time slot and responds with a clickable Google Calendar link.
 
 ## Live Demo
 
-You can try a working version of this agent here:
+Try it here:  
+[https://calendar-agent-samrobertson6.replit.app](https://calendar-agent-samrobertson6.replit.app)
 
-**[Live Demo](https://calendar-agent-samrobertson6.replit.app/)**
+## Default Example Prompt
 
-_(Note: For demo purposes, events are created on a dedicated demo Google Calendar.)_
+When the page loads, it’s pre-filled with this example input:
 
----
+Schedule a 15-minute meeting between Sam and Lisa on the earliest available Friday
 
-## Key Features
+Users can modify the request in natural language, for example:
+- “Schedule a 30-minute sync for tomorrow morning”
+- “Find a time next week for Sam and Lisa outside working hours”
+- “Set up a 45-minute meeting after 4 PM PT next Monday”
 
-- **OpenAI Assistants API (beta)**
-  - Threads, Runs, Tool Calls, File Search (`file_search`)
-- **Google Calendar API Integration**
-  - OAuth2 secure authentication
-  - Real event creation in the user's calendar
-- **Real-time Awareness**
-  - Dynamically injects today's date
-  - Correctly handles current year and scheduling window
-- **Business Rule Enforcement**
-  - Schedules only Monday–Friday by default
-  - Prioritizes normal business hours (9:00 AM–5:00 PM)
-- **Friendly UI and Output**
-  - Live spinner while processing
-  - Clear formatted event summaries
-  - Clickable Google Calendar links
-- **Robust Production Code**
-  - OAuth token refresh
-  - Fast polling for assistant responses
-  - Graceful error handling
+## How It Works
 
----
+- Uses OpenAI Assistants API with a custom tool function (`create_calendar_event`)
+- Injects today’s date via `instructions` dynamically in each request
+- Uploads and references a static RAG file (`team_schedule.md`) to define recurring team availability
+- When a tool function is called, the app programmatically builds a link and inserts it as a Markdown-formatted hyperlink
+- Flask + TailwindCSS frontend displays results and links cleanly, with Markdown rendering enabled
 
-## Technologies Used
+## Included RAG File
 
-- Python 3.11
-- Flask
-- OpenAI Python SDK (`>=1.3.5`)
-- Google OAuth2 and Calendar API
-- Markdown rendering
-- Deployed using Replit Cloud (or portable to Vercel, Render, Fly.io)
+The included file `team_schedule.md` defines working hours, recurring meetings, and blocked times for the team.  
+You can edit this file to match your own organization’s recurring schedule or availability policies.
 
----
+## Credits
 
-## Example Prompts
-
-- "Schedule a meeting between Sam and Lisa at the earliest possible time."
-- "Book a sync for the engineering team after the daily standup."
-- "Find an open time tomorrow afternoon for a 30-minute customer call."
-- "Set up a follow-up meeting for Nina and Jose next week."
-- "Arrange a kickoff meeting for the project team."
-
-_(No need to specify avoiding weekends — the assistant automatically prefers weekdays during business hours.)_
-
----
-
-## Included RAG Data File (`team_schedule.md`)
-
-> **Note:** You can edit this file to match your own company's weekly schedule and meeting rules.
-
-```markdown
-# Weekly Team Schedule
-
-- Monday
-  - 9:00 AM – Engineering Standup
-  - 1:00 PM – Marketing Review
-
-- Tuesday
-  - 10:00 AM – Product Sync
-  - 2:00 PM – Customer Success Meeting
-
-- Wednesday
-  - 9:30 AM – Engineering Standup
-  - 11:00 AM – Sales Pipeline Review
-
-- Thursday
-  - 9:00 AM – Engineering Standup
-  - 3:00 PM – Partner Check-in
-
-- Friday
-  - 9:00 AM – Engineering Standup
-  - 12:00 PM – Weekly Wrap-up Meeting
-
-# Company Meeting Policy
-
-- Meetings are scheduled Monday through Friday only.
-- No meetings are scheduled on weekends (Saturday/Sunday) unless explicitly requested.
-- Preferred hours are 9:00 AM to 5:00 PM local time.
+Created by **Sam Robertson**  
+Built using Flask, OpenAI Assistants API, TailwindCSS, and Google Calendar integration
